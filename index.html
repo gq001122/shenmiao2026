@@ -1293,16 +1293,21 @@
             getScreenPosition(lane, z) {
                 const vanishX = this.centerX;  // 屏幕正中央
                 const vanishY = this.horizonY;
-                const bottomY = this.canvas.height;
+                
+                // 玩家(z=0)使用playerBaseY，其他使用透视计算
+                if (z <= 0) {
+                    const roadWidthBottom = this.roadWidthBottom;
+                    const laneOffset = (lane - 1) * (roadWidthBottom / CONFIG.LANE_COUNT);
+                    const x = vanishX + laneOffset;
+                    return { x, y: this.playerBaseY };
+                }
                 
                 const scale = this.getScale(z);
-                const roadWidthAtZ = this.roadWidthBottom * scale;  // 使用居中的道路宽度
-                
-                // 车道偏移计算，确保跑道在屏幕正中央
+                const roadWidthAtZ = this.roadWidthBottom * scale;
                 const laneOffset = (lane - 1) * (roadWidthAtZ / CONFIG.LANE_COUNT);
                 const x = vanishX + laneOffset;
-                const y = vanishY + (bottomY - vanishY) * (1 - (1 - scale));
-                
+                const y = vanishY + (this.playerBaseY - vanishY) * (1 - (1 - scale));
+
                 return { x, y };
             }
             
