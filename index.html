@@ -334,7 +334,7 @@
         <!-- HUD -->
         <div id="hud" class="hidden">
             <div class="hud-left">
-                <div class="hud-item"><span>🪙</span><span id="coinCount">0</span></div>
+                <div class="hud-item"><span>💰</span><span id="coinCount">0</span></div>
                 <div class="hud-item"><span>📏</span><span id="distance">0</span><span>米</span></div>
             </div>
             <div class="hud-right">
@@ -393,7 +393,7 @@
             </div>
             <div class="stat-row">
                 <div class="stat-item">
-                    <span class="stat-icon">🪙</span>
+                    <span class="stat-icon">💰</span>
                     <span id="finalCoins">0</span>
                 </div>
             </div>
@@ -680,7 +680,7 @@
                     card.innerHTML = `
                         <span class="emoji">${char.emoji}</span>
                         <div class="name">${char.name}</div>
-                        <div class="stats">⚡${char.speed} 🪙${char.coinBonus}</div>
+                        <div class="stats">⚡${char.speed} 💰${char.coinBonus}</div>
                     `;
                     card.addEventListener('click', () => {
                         this.selectedCharacter = index;
@@ -1184,7 +1184,7 @@
                     ctx.font = `${drawSize}px Arial`;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    ctx.fillText('🪙', pos.x, pos.y - 30 * scale);
+                    ctx.fillText('💰', pos.x, pos.y - 30 * scale);
                 }
             }
 
@@ -1201,11 +1201,11 @@
                     // 根据类型选择emoji
                     let emoji;
                     switch(obs.type) {
-                        case 'rock': emoji = '🪨'; break;
-                        case 'tree': emoji = '🌳'; break;
-                        case 'pillar': emoji = '🏛️'; break;
-                        case 'box': emoji = '📦'; break;
-                        default: emoji = '🗿';
+                        case 'car': emoji = '🚗'; break;
+                        case 'motorcycle': emoji = '🏍️'; break;
+                        case 'cone': emoji = '🚧'; break;
+                        case 'truck': emoji = '🚚'; break;
+                        default: emoji = '🚧';
                     }
                     
                     const drawSize = Math.max(obs.height * scale, 30);
