@@ -416,14 +416,14 @@
             // 角色emoji
             playerEmoji: '🏃',
             deadEmoji: '💀',
-            coinCollectEmoji: '🪙',
+            coinCollectEmoji: '💰',  // 钱袋/硬币
             
-            // 障碍物emoji映射
+            // 障碍物emoji映射 - 交通主题
             obstacleEmojis: {
-                pillar: '🏛️',   // 石柱 - 柱子
-                box: '📦',       // 木箱
-                tree: '🌳',      // 树
-                rock: '🪨',      // 石头
+                car: '🚗',      // 汽车
+                motorcycle: '🏍️', // 摩托车
+                cone: '🚧',      // 三角桶/交通锥
+                truck: '🚚',     // 卡车
             },
             
             // 道路颜色（像素风格）
@@ -853,7 +853,7 @@
 
             spawnObstacle() {
                 const lane = Math.floor(Math.random() * CONFIG.LANE_COUNT);
-                const types = ['rock', 'tree', 'pillar', 'box'];
+                const types = ['car', 'motorcycle', 'cone', 'truck'];
                 const typeIndex = Math.floor(Math.random() * types.length);
                 const type = types[typeIndex];
                 
@@ -862,7 +862,7 @@
                     z: 3000,  // 从2000改为3000
                     type: type,
                     width: 80,
-                    height: type === 'rock' || type === 'box' ? 40 : 100,
+                    height: type === 'cone' ? 50 : 80,
                 });
             }
 
