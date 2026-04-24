@@ -246,7 +246,7 @@
             bottom: 20px;
             left: 0;
             width: 100%;
-            display: flex;
+            display: none !important;  /* 隐藏底部按钮 - 只保留触摸滑动操作 */
             justify-content: space-between;
             padding: 0 20px;
             z-index: 50;
@@ -442,8 +442,8 @@
                 bottom: '#2d1f3d',
             },
             
-            // 装饰物颜色
-            decorationColors: ['🌴', '🌲', '🌿', '🏚️', '🗿'],
+            // 装饰物颜色 - 道路两侧装饰
+            decorationColors: ['🌴', '🌲', '🌳', '🏠', '🐱', '🐕', '🌵', '🪨', '🌿', '🏡', '🦎', '🐦'],
         };
 
         // ========== 角色数据（使用emoji） ==========
@@ -701,7 +701,8 @@
                 this.state = GameState.PLAYING;
                 document.getElementById('hud').classList.remove('hidden');
                 document.getElementById('pauseBtn').classList.remove('hidden');
-                document.getElementById('mobileControls').classList.remove('hidden');
+                // 隐藏移动端控制按钮 - 只保留触摸滑动操作
+                // document.getElementById('mobileControls').classList.remove('hidden');
                 
                 this.lastTime = performance.now();
                 this.gameLoop();
@@ -880,14 +881,16 @@
                     });
                 }
                 
-                // 随机生成装饰物
-                if (Math.random() < 0.1) {
+                // 随机生成装饰物（增加生成频率）
+                if (Math.random() < 0.4) {
                     const decoEmoji = PIXEL_CONFIG.decorationColors[
                         Math.floor(Math.random() * PIXEL_CONFIG.decorationColors.length)
                     ];
+                    // 从道路两侧生成装饰物
+                    const side = Math.random() < 0.5 ? -1 : 4;  // 左侧或右侧
                     this.decorations.push({
-                        lane: Math.random() < 0.5 ? -0.5 : 2.5,
-                        z: 3000,  // 从2000改为3000
+                        lane: side,
+                        z: 3000,
                         emoji: decoEmoji,
                         width: 60,
                         height: 100,
@@ -1223,64 +1226,204 @@
             renderPlayer() {
                 const ctx = this.ctx;
                 const pos = this.getScreenPosition(this.player.lane, 0);
-                let y = pos.y - 50;
+                let y = pos.y;
                 
                 // 跳跃偏移
                 y -= this.player.jumpY;
                 
-                // 跑步动画 - 上下晃动
-                const bobOffset = Math.sin(this.player.animFrame) * 5;
+                // 跑步动画帧（2帧跑步循环）
+                const runFrame = Math.floor(this.player.animFrame * 2) % 2;
+                const bobOffset = Math.sin(this.player.animFrame * 2) * 6;
                 y += bobOffset;
                 
-                // 根据状态设置emoji和效果
-                let emoji = PIXEL_CONFIG.playerEmoji;
-                let fontSize = 50;
-                let rotation = 0;
-                let scaleX = 1;
-                let scaleY = 1;
-                let shadowOffsetY = 0;
-                
-                if (this.state === GameState.GAME_OVER) {
-                    // 死亡状态
-                    emoji = PIXEL_CONFIG.deadEmoji;
-                    rotation = Math.sin(this.player.animFrame * 0.5) * 0.3;
-                    fontSize = 50;
+                // 跑步背影动画 - 只在非滑铲状态显示
+                if (!this.player.isSliding && this.state !== GameState.GAME_OVER) {
+                    // 绘制跑步背影人物
+                    ctx.save();
+                    ctx.translate(pos.x, y);
+                    
+                    // 人物参数
+                    const bodyHeight = 45;
+                    const headRadius = 12;
+                    const legLength = 30;
+                    const armLength = 25;
+                    const bodyWidth = 18;
+                    
+                    // 跑步动画腿部位置
+                    const legSwing = Math.sin(this.player.animFrame * 2) * 20;
+                    const armSwing = Math.sin(this.player.animFrame * 2 + Math.PI) * 15;
+                    
+                    // 身体颜色
+                    ctx.fillStyle = '#4a90d9';  // 蓝色衣服
+                    ctx.strokeStyle = '#2d5a87';
+                    ctx.lineWidth = 2;
+                    
+                    // 绘制阴影
+                    ctx.save();
+                    ctx.globalAlpha = 0.3;
+                    ctx.fillStyle = '#000';
+                    ctx.beginPath();
+                    ctx.ellipse(0, 5, 25, 8, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                    
+                    // 绘制左腿（背面视角）
+                    ctx.save();
+                    ctx.fillStyle = '#3d5a80';
+                    ctx.strokeStyle = '#2d4a6a';
+                    ctx.lineWidth = 2;
+                    
+                    // 左腿
+                    ctx.translate(-5, -legLength);
+                    ctx.rotate((legSwing * Math.PI) / 180);
+                    ctx.beginPath();
+                    ctx.roundRect(-5, 0, 10, legLength, 3);
+                    ctx.fill();
+                    ctx.stroke();
+                    // 左脚
+                    ctx.fillStyle = '#333';
+                    ctx.fillRect(-6, legLength - 3, 14, 5);
+                    ctx.restore();
+                    
+                    // 绘制右腿
+                    ctx.save();
+                    ctx.fillStyle = '#3d5a80';
+                    ctx.strokeStyle = '#2d4a6a';
+                    ctx.lineWidth = 2;
+                    ctx.translate(5, -legLength);
+                    ctx.rotate((-legSwing * Math.PI) / 180);
+                    ctx.beginPath();
+                    ctx.roundRect(-5, 0, 10, legLength, 3);
+                    ctx.fill();
+                    ctx.stroke();
+                    // 右脚
+                    ctx.fillStyle = '#333';
+                    ctx.fillRect(-6, legLength - 3, 14, 5);
+                    ctx.restore();
+                    
+                    // 绘制身体（背部）
+                    ctx.fillStyle = '#4a90d9';
+                    ctx.strokeStyle = '#2d5a87';
+                    ctx.beginPath();
+                    ctx.roundRect(-bodyWidth/2, -bodyHeight - headRadius * 2, bodyWidth, bodyHeight, 5);
+                    ctx.fill();
+                    ctx.stroke();
+                    
+                    // 绘制背包（侧面可见）
+                    ctx.fillStyle = '#8b4513';
+                    ctx.strokeStyle = '#5d2e0a';
+                    ctx.fillRect(-bodyWidth/2 - 4, -bodyHeight - headRadius * 2 + 10, 6, 20);
+                    ctx.stroke();
+                    
+                    // 绘制左臂
+                    ctx.save();
+                    ctx.fillStyle = '#f5c6a5';  // 肤色
+                    ctx.translate(-bodyWidth/2, -bodyHeight - headRadius * 2 + 5);
+                    ctx.rotate(((armSwing - 30) * Math.PI) / 180);
+                    ctx.beginPath();
+                    ctx.roundRect(-3, 0, 6, armLength - 5, 3);
+                    ctx.fill();
+                    ctx.strokeStyle = '#d4a574';
+                    ctx.stroke();
+                    ctx.restore();
+                    
+                    // 绘制右臂
+                    ctx.save();
+                    ctx.fillStyle = '#f5c6a5';
+                    ctx.translate(bodyWidth/2, -bodyHeight - headRadius * 2 + 5);
+                    ctx.rotate(((-armSwing + 30) * Math.PI) / 180);
+                    ctx.beginPath();
+                    ctx.roundRect(-3, 0, 6, armLength - 5, 3);
+                    ctx.fill();
+                    ctx.strokeStyle = '#d4a574';
+                    ctx.stroke();
+                    ctx.restore();
+                    
+                    // 绘制头部（背面）
+                    ctx.fillStyle = '#f5c6a5';
+                    ctx.strokeStyle = '#d4a574';
+                    ctx.beginPath();
+                    ctx.arc(0, -bodyHeight - headRadius, headRadius, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                    
+                    // 绘制头发（后脑勺）
+                    ctx.fillStyle = '#4a3728';
+                    ctx.beginPath();
+                    ctx.arc(0, -bodyHeight - headRadius - 2, headRadius - 2, Math.PI * 0.8, Math.PI * 2.2);
+                    ctx.fill();
+                    
+                    // 跳跃时的上升效果
+                    if (this.player.jumpY > 0) {
+                        // 添加向上的飘带效果
+                        ctx.globalAlpha = 0.5;
+                        ctx.fillStyle = '#87ceeb';
+                        for (let i = 0; i < 3; i++) {
+                            const offsetX = (i - 1) * 15 + Math.sin(this.player.animFrame * 3 + i) * 5;
+                            ctx.beginPath();
+                            ctx.moveTo(offsetX, 10 + i * 8);
+                            ctx.quadraticCurveTo(offsetX + 10, 20 + i * 8, offsetX, 35 + i * 8);
+                            ctx.quadraticCurveTo(offsetX - 10, 20 + i * 8, offsetX, 10 + i * 8);
+                            ctx.fill();
+                        }
+                    }
+                    
+                    ctx.restore();
                 } else if (this.player.isSliding) {
-                    // 滑铲状态 - 压扁效果
-                    emoji = PIXEL_CONFIG.playerEmoji;
-                    scaleX = 1.5;
-                    scaleY = 0.5;
-                    fontSize = 40;
-                    shadowOffsetY = 30;
-                } else if (this.player.jumpY > 0) {
-                    // 跳跃状态 - 向上偏移 + 拉伸
-                    emoji = PIXEL_CONFIG.playerEmoji;
-                    scaleX = 0.9;
-                    scaleY = 1.2;
-                    fontSize = 55;
+                    // 滑铲状态 - 趴下的人物
+                    ctx.save();
+                    ctx.translate(pos.x, y);
+                    
+                    ctx.fillStyle = '#4a90d9';
+                    ctx.strokeStyle = '#2d5a87';
+                    ctx.lineWidth = 2;
+                    
+                    // 绘制阴影
+                    ctx.save();
+                    ctx.globalAlpha = 0.3;
+                    ctx.fillStyle = '#000';
+                    ctx.beginPath();
+                    ctx.ellipse(0, 5, 40, 10, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                    
+                    // 趴下的身体
+                    ctx.translate(0, -15);
+                    ctx.rotate(Math.PI / 6);
+                    ctx.beginPath();
+                    ctx.roundRect(-25, -10, 50, 20, 8);
+                    ctx.fill();
+                    ctx.stroke();
+                    
+                    // 头
+                    ctx.fillStyle = '#f5c6a5';
+                    ctx.beginPath();
+                    ctx.arc(-20, -5, 10, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                    
+                    // 腿
+                    ctx.fillStyle = '#3d5a80';
+                    ctx.fillRect(15, -5, 25, 8);
+                    
+                    ctx.restore();
+                } else if (this.state === GameState.GAME_OVER) {
+                    // 死亡状态 - 显示骷髅emoji
+                    ctx.save();
+                    ctx.translate(pos.x, y - 30);
+                    ctx.font = '50px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillText('💀', 0, 0);
+                    ctx.restore();
+                    
+                    // 像素风格阴影
+                    ctx.save();
+                    ctx.globalAlpha = 0.4;
+                    ctx.fillStyle = '#000';
+                    ctx.fillRect(pos.x - 15, pos.y + 5, 30, 8);
+                    ctx.restore();
                 }
-                
-                ctx.save();
-                ctx.translate(pos.x, y);
-                ctx.rotate(rotation);
-                ctx.scale(scaleX, scaleY);
-                
-                // 绘制emoji
-                ctx.font = `${fontSize}px Arial`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'bottom';
-                ctx.fillText(emoji, 0, 0);
-                
-                ctx.restore();
-                
-                // 像素风格阴影
-                ctx.save();
-                ctx.globalAlpha = 0.4;
-                ctx.fillStyle = '#000';
-                const shadowWidth = 30 * scaleX;
-                const shadowHeight = 8 * scaleY;
-                ctx.fillRect(pos.x - shadowWidth/2, pos.y + 5 - shadowOffsetY, shadowWidth, shadowHeight);
-                ctx.restore();
             }
 
             getScale(z) {
