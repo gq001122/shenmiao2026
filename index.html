@@ -15,7 +15,7 @@
         body {
             background: #1a1a2e;
             overflow: hidden;
-            font-family: 'Microsoft YaHei', sans-serif;
+            font-family: 'Courier New', monospace;
             touch-action: none;
         }
         
@@ -31,7 +31,8 @@
             display: block;
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, #2d1f3d 0%, #1a1a2e 100%);
+            background: #0a0a15;
+            image-rendering: pixelated;
         }
         
         .overlay {
@@ -44,7 +45,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 100;
         }
         
@@ -54,48 +55,51 @@
         
         .title {
             font-size: clamp(2rem, 8vw, 4rem);
-            color: #ffd700;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 4px 8px rgba(0,0,0,0.5);
+            color: #4ade80;
+            text-shadow: 4px 4px 0px #166534, -2px -2px 0px #22c55e;
             margin-bottom: 10px;
             text-align: center;
+            font-weight: bold;
+            letter-spacing: 4px;
         }
         
         .subtitle {
             font-size: clamp(0.9rem, 3vw, 1.2rem);
-            color: #aaa;
+            color: #6b7280;
             margin-bottom: 30px;
+            font-family: 'Courier New', monospace;
         }
         
         .btn {
-            padding: 15px 50px;
+            padding: 12px 40px;
             font-size: clamp(1rem, 4vw, 1.5rem);
-            border: none;
-            border-radius: 50px;
+            border: 4px solid #000;
             cursor: pointer;
             margin: 10px;
-            transition: all 0.3s ease;
+            transition: all 0.1s ease;
             font-weight: bold;
+            font-family: 'Courier New', monospace;
+            box-shadow: 4px 4px 0px #000;
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
-            color: #1a1a2e;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+            background: #4ade80;
+            color: #000;
         }
         
         .btn-primary:hover, .btn-primary:active {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000;
         }
         
         .btn-secondary {
-            background: linear-gradient(135deg, #4a4a6a, #2a2a4a);
+            background: #6b7280;
             color: #fff;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
         
         .btn-secondary:hover, .btn-secondary:active {
-            transform: scale(1.05);
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000;
         }
         
         .character-select {
@@ -109,37 +113,41 @@
         .character-card {
             width: 80px;
             height: 100px;
-            border-radius: 10px;
-            overflow: hidden;
+            border: 4px solid #374151;
             cursor: pointer;
-            border: 3px solid transparent;
-            transition: all 0.3s ease;
-            background: #2a2a4a;
+            transition: all 0.1s ease;
+            background: #1f2937;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 4px 4px 0px #000;
         }
         
         .character-card.selected {
-            border-color: #ffd700;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            border-color: #4ade80;
+            background: #166534;
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000;
         }
         
-        .character-card img {
-            width: 100%;
-            height: 80%;
-            object-fit: cover;
+        .character-card .emoji {
+            font-size: 2.5rem;
         }
         
         .character-card .name {
             font-size: 10px;
             color: #fff;
             text-align: center;
-            padding: 2px;
-            background: rgba(0,0,0,0.5);
+            margin-top: 5px;
+            font-family: 'Courier New', monospace;
         }
         
         .character-card .stats {
             font-size: 8px;
-            color: #aaa;
+            color: #9ca3af;
             text-align: center;
+            font-family: 'Courier New', monospace;
         }
         
         .stat-row {
@@ -154,6 +162,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            font-family: 'Courier New', monospace;
         }
         
         .stat-icon {
@@ -161,14 +170,16 @@
         }
         
         .new-record {
-            color: #ffd700;
+            color: #fbbf24;
             font-size: clamp(1.2rem, 4vw, 1.8rem);
-            animation: pulse 0.5s ease infinite alternate;
+            animation: blink 0.5s ease infinite alternate;
+            font-family: 'Courier New', monospace;
+            text-shadow: 3px 3px 0px #000;
         }
         
-        @keyframes pulse {
-            from { transform: scale(1); opacity: 0.8; }
-            to { transform: scale(1.1); opacity: 1; }
+        @keyframes blink {
+            from { opacity: 1; }
+            to { opacity: 0.5; }
         }
         
         #hud {
@@ -191,16 +202,16 @@
         }
         
         .hud-item {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(30, 30, 50, 0.7));
-            padding: 10px 18px;
-            border-radius: 25px;
+            background: #1f2937;
+            padding: 8px 16px;
+            border: 3px solid #000;
             color: #fff;
             font-size: clamp(0.9rem, 2.5vw, 1.1rem);
             display: flex;
             align-items: center;
             gap: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 3px 3px 0px #000;
+            font-family: 'Courier New', monospace;
         }
         
         .hud-item .icon {
@@ -213,21 +224,21 @@
             right: 15px;
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(50, 50, 50, 0.7));
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
+            background: #1f2937;
+            border: 3px solid #000;
             color: #fff;
             font-size: 1.4rem;
             cursor: pointer;
             z-index: 60;
             pointer-events: auto;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.1s ease;
+            box-shadow: 3px 3px 0px #000;
+            font-family: 'Courier New', monospace;
         }
         
         #pauseBtn:hover {
-            background: linear-gradient(135deg, rgba(50, 50, 50, 0.8), rgba(80, 80, 80, 0.8));
-            transform: scale(1.1);
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0px #000;
         }
         
         .controls {
@@ -249,43 +260,44 @@
         .control-btn {
             width: 70px;
             height: 70px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.4);
+            border: 3px solid #000;
+            background: #374151;
             color: #fff;
-            font-size: 0.8rem;
+            font-size: 1.5rem;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 2px;
-            transition: all 0.2s;
+            transition: all 0.1s;
+            box-shadow: 3px 3px 0px #000;
+            font-family: 'Courier New', monospace;
         }
         
         .control-btn:active {
-            background: rgba(255, 255, 255, 0.5);
-            transform: scale(0.92);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px #000;
         }
         
         .control-btn.jump {
-            background: linear-gradient(135deg, rgba(100, 200, 100, 0.4), rgba(50, 150, 50, 0.4));
-            border-color: rgba(100, 200, 100, 0.6);
+            background: #166534;
         }
         
         .control-btn.slide {
-            background: linear-gradient(135deg, rgba(100, 100, 200, 0.4), rgba(50, 50, 150, 0.4));
-            border-color: rgba(100, 100, 200, 0.6);
+            background: #1e3a5f;
         }
         
         .control-btn.left, .control-btn.right {
-            background: linear-gradient(135deg, rgba(200, 150, 100, 0.4), rgba(150, 100, 50, 0.4));
-            border-color: rgba(200, 150, 100, 0.6);
+            background: #78350f;
         }
         
         .control-btn .icon {
             font-size: 1.5rem;
+        }
+        
+        .control-btn span:last-child {
+            font-size: 0.6rem;
         }
         
         .direction-controls {
@@ -297,20 +309,21 @@
         .direction-btn {
             width: 60px;
             height: 60px;
-            font-size: 1.5rem;
         }
         
         .instructions {
-            color: #888;
+            color: #6b7280;
             font-size: clamp(0.7rem, 2vw, 0.9rem);
             text-align: center;
             margin-top: 20px;
             max-width: 300px;
+            font-family: 'Courier New', monospace;
         }
         
         .logo-icon {
             font-size: 4rem;
             margin-bottom: 10px;
+            image-rendering: pixelated;
         }
     </style>
 </head>
@@ -348,20 +361,20 @@
             <h1 class="title">神庙逃亡</h1>
             <p class="subtitle">shenmiao2026</p>
             
-            <p style="color: #888; margin-bottom: 15px;">选择角色</p>
+            <p style="color: #6b7280; margin-bottom: 15px; font-family: 'Courier New', monospace;">选择角色</p>
             <div class="character-select" id="characterSelect"></div>
             
             <button class="btn btn-primary" id="startBtn">开始游戏</button>
             
             <p class="instructions">
-                ⬅️ ➡️ 左右移动 | ⬆️ 跳跃 | ⬇️ 滑铲<br>
+                ◀ ▶ 左右移动 | ⬆ 跳跃 | ⬇ 滑铲<br>
                 键盘: A/D 或 ←/→ 移动, W/↑ 跳跃, S/↓ 滑铲
             </p>
         </div>
         
         <!-- 暂停界面 -->
         <div id="pauseScreen" class="overlay hidden">
-            <h2 class="title">⏸️ 游戏暂停</h2>
+            <h2 class="title">⏸️ 暂停</h2>
             <button class="btn btn-primary" id="resumeBtn">继续游戏</button>
             <button class="btn btn-secondary" id="restartFromPauseBtn">重新开始</button>
             <button class="btn btn-secondary" id="quitBtn">返回主菜单</button>
@@ -369,7 +382,7 @@
         
         <!-- 游戏结束界面 -->
         <div id="gameOverScreen" class="overlay hidden">
-            <h2 class="title">游戏结束</h2>
+            <h2 class="title" style="color: #ef4444;">💀 游戏结束</h2>
             <p id="newRecordText" class="new-record hidden">🏆 新纪录!</p>
             
             <div class="stat-row">
@@ -398,79 +411,65 @@
     </div>
 
     <script>
-        // ========== 资源URL配置 (3D素材版本) ==========
-        const ASSETS = {
-            backgrounds: [
-                'https://www.coze.cn/s/zALNn8AIA-g/', // jungle_0
-                'https://www.coze.cn/s/2c-m3mZge1M/', // jungle_1
-                'https://www.coze.cn/s/5EO_H8lTIFQ/', // jungle_2
-                'https://www.coze.cn/s/6grb0US8Zo8/', // jungle_3
-            ],
-            roads: [
-                'https://www.coze.cn/s/7ayXGS2CdG0/', // road_0
-                'https://www.coze.cn/s/6N6PG29yPzg/', // road_1
-                'https://www.coze.cn/s/6vP7_JsjXTo/', // road_2
-                'https://www.coze.cn/s/4kdoGCFNUCQ/', // road_3
-            ],
-            characters: [
-                { name: '探险家A', speed: 1.0, coinBonus: 1.0, src: 'https://www.coze.cn/s/ndq8ZVqRAZI/' },
-                { name: '探险家B', speed: 1.1, coinBonus: 1.0, src: 'https://www.coze.cn/s/n-E1CEmQ33o/' },
-                { name: '女探险家', speed: 0.95, coinBonus: 1.2, src: 'https://www.coze.cn/s/nVJyuhPRxmA/' },
-            ],
-            coins: [
-                'https://www.coze.cn/s/nRY5hQC7V6k/', // coin_0
-                'https://www.coze.cn/s/r_5KNTusQjU/', // coin_1
-                'https://www.coze.cn/s/qy-MPkwFRak/', // coin_2
-                'https://www.coze.cn/s/s52ii3_Geo4/', // coin_3
-                'https://www.coze.cn/s/nRY5hQC7V6k/',
-                'https://www.coze.cn/s/r_5KNTusQjU/',
-                'https://www.coze.cn/s/qy-MPkwFRak/',
-                'https://www.coze.cn/s/s52ii3_Geo4/',
-                'https://www.coze.cn/s/nRY5hQC7V6k/',
-                'https://www.coze.cn/s/r_5KNTusQjU/',
-                'https://www.coze.cn/s/qy-MPkwFRak/',
-                'https://www.coze.cn/s/s52ii3_Geo4/',
-            ],
-            obstacles: [
-                { name: '石柱', jumpable: true, slideable: false, src: 'https://www.coze.cn/s/vvWj8AcsnCQ/' },
-                { name: '木箱', jumpable: true, slideable: false, src: 'https://www.coze.cn/s/wen8LfBARXc/' },
-                { name: '断树', jumpable: true, slideable: false, src: 'https://www.coze.cn/s/wZ4lf904zY4/' },
-                { name: '雕像', jumpable: true, slideable: false, src: 'https://www.coze.cn/s/y9ORxkYujf8/' },
-                { name: '矮石', jumpable: false, slideable: true, src: 'https://www.coze.cn/s/wf8JvxUZWxg/' },
-                { name: '树根', jumpable: false, slideable: true, src: 'https://www.coze.cn/s/xW8Qrn2PPwc/' },
-                { name: '石柱2', jumpable: true, slideable: false, src: 'https://www.coze.cn/s/v7LYqP7bSrY/' },
-                { name: '石柱3', jumpable: true, slideable: false, src: 'https://www.coze.cn/s/wTZvYFPNmoI/' },
-                { name: '木箱2', jumpable: true, slideable: false, src: 'https://www.coze.cn/s/wZ4lf904zY4/' },
-                { name: '木箱3', jumpable: true, slideable: false, src: 'https://www.coze.cn/s/y9ORxkYujf8/' },
-                { name: '断树2', jumpable: true, slideable: false, src: 'https://www.coze.cn/s/wf8JvxUZWxg/' },
-                { name: '断树3', jumpable: true, slideable: false, src: 'https://www.coze.cn/s/xW8Qrn2PPwc/' },
-                { name: '雕像2', jumpable: true, slideable: false, src: 'https://www.coze.cn/s/v7LYqP7bSrY/' },
-                { name: '雕像3', jumpable: true, slideable: false, src: 'https://www.coze.cn/s/wTZvYFPNmoI/' },
-            ],
-            decorations: [
-                'https://www.coze.cn/s/sd-oq1Fiuqk/', // decoration_0
-                'https://www.coze.cn/s/nrvgn-v7ksk/', // decoration_1
-                'https://www.coze.cn/s/nieEbmLf4I8/', // decoration_2
-                'https://www.coze.cn/s/n-7GEq0SI0g/', // decoration_3
-            ]
+        // ========== 像素风格配置 ==========
+        const PIXEL_CONFIG = {
+            // 角色emoji
+            playerEmoji: '🏃',
+            deadEmoji: '💀',
+            coinCollectEmoji: '🪙',
+            
+            // 障碍物emoji映射
+            obstacleEmojis: {
+                pillar: '🏛️',   // 石柱 - 柱子
+                box: '📦',       // 木箱
+                tree: '🌳',      // 树
+                rock: '🪨',      // 石头
+            },
+            
+            // 道路颜色（像素风格）
+            roadColors: {
+                main: '#3d2817',      // 主道路
+                line: '#5a3d2b',     // 车道线
+                gridLine: '#2a1d10', // 网格线
+                edge: '#8b7355',     // 道路边缘
+                shadow: '#1a0f08',    // 阴影
+            },
+            
+            // 背景颜色（像素风格渐变）
+            bgColors: {
+                top: '#0f0f23',
+                middle: '#1a1a3e',
+                bottom: '#2d1f3d',
+            },
+            
+            // 装饰物颜色
+            decorationColors: ['🌴', '🌲', '🌿', '🏚️', '🗿'],
         };
+
+        // ========== 角色数据（使用emoji） ==========
+        const CHARACTERS = [
+            { name: '探险家A', emoji: '🧑‍🎤', speed: 1.0, coinBonus: 1.0 },
+            { name: '探险家B', emoji: '🧑‍🔧', speed: 1.1, coinBonus: 1.0 },
+            { name: '女探险家', emoji: '🧑‍🚀', speed: 0.95, coinBonus: 1.2 },
+        ];
 
         // ========== 游戏配置 ==========
         const CONFIG = {
             LANE_COUNT: 3,
             LANE_WIDTH_RATIO: 0.25,
-            PLAYER_Y_RATIO: 0.75,
-            INITIAL_SPEED: 5,
-            MAX_SPEED: 15,
-            SPEED_INCREMENT: 0.001,
+            PLAYER_Y_RATIO: 0.85,       // 玩家在屏幕下方15%
+            INITIAL_SPEED: 8,            // 从5改为8
+            MAX_SPEED: 20,               // 从15改为20
+            SPEED_INCREMENT: 0.002,      // 从0.001改为0.002
             JUMP_HEIGHT: 120,
             JUMP_DURATION: 500,
             SLIDE_DURATION: 400,
             LANE_SWITCH_DURATION: 150,
-            OBSTACLE_SPAWN_INTERVAL: 1500,
-            COIN_SPAWN_INTERVAL: 800,
+            OBSTACLE_SPAWN_INTERVAL: 2500,  // 从1500改为2500
+            COIN_SPAWN_INTERVAL: 1200,       // 从800改为1200
             PERSPECTIVE_SCALE: 0.3,
-            HORIZON_Y_RATIO: 0.35,
+            HORIZON_Y_RATIO: 0.30,           // 从0.35改为0.30
+            ROAD_WIDTH_RATIO: 0.6,            // 道路宽度占屏幕宽度的比例
         };
 
         // ========== 游戏状态 ==========
@@ -491,61 +490,13 @@
                 this.bestDistance = parseInt(localStorage.getItem('templeRunBest') || '0');
                 
                 this.images = {};
-                this.imagesLoaded = false;
+                this.imagesLoaded = true; // 不再依赖图片加载
                 
-                // 等待图片加载完成
-                this.initPromise = this.initAsync();
-            }
-
-            async initAsync() {
-                await this.loadImages();
-                this.imagesLoaded = true;
                 this.init();
                 this.setupEventListeners();
                 this.resize();
                 
                 window.addEventListener('resize', () => this.resize());
-            }
-
-            async loadImages() {
-                const loadImage = (src) => {
-                    return new Promise((resolve) => {
-                        const img = new Image();
-                        img.crossOrigin = 'anonymous';
-                        img.onload = () => resolve(img);
-                        img.onerror = () => {
-                            // 创建占位图片
-                            const placeholder = document.createElement('canvas');
-                            placeholder.width = 100;
-                            placeholder.height = 100;
-                            const ctx = placeholder.getContext('2d');
-                            ctx.fillStyle = '#555';
-                            ctx.fillRect(0, 0, 100, 100);
-                            resolve(placeholder);
-                        };
-                        img.src = src;
-                    });
-                };
-
-                // 加载所有资源
-                for (const src of ASSETS.backgrounds) {
-                    this.images[src] = await loadImage(src);
-                }
-                for (const src of ASSETS.roads) {
-                    this.images[src] = await loadImage(src);
-                }
-                for (let i = 0; i < ASSETS.characters.length; i++) {
-                    this.images[ASSETS.characters[i].src] = await loadImage(ASSETS.characters[i].src);
-                }
-                for (const src of ASSETS.coins) {
-                    this.images[src] = await loadImage(src);
-                }
-                for (const obs of ASSETS.obstacles) {
-                    this.images[obs.src] = await loadImage(obs.src);
-                }
-                for (const src of ASSETS.decorations) {
-                    this.images[src] = await loadImage(src);
-                }
             }
 
             init() {
@@ -579,9 +530,6 @@
                 this.bgOffset = 0;
                 this.roadOffset = 0;
                 
-                this.bgIndex = 0;
-                this.roadIndex = 0;
-                
                 this.keys = {};
             }
 
@@ -594,6 +542,7 @@
                 this.horizonY = this.canvas.height * CONFIG.HORIZON_Y_RATIO;
                 this.laneWidth = this.canvas.width * CONFIG.LANE_WIDTH_RATIO;
                 this.playerBaseY = this.canvas.height * CONFIG.PLAYER_Y_RATIO;
+                this.roadWidthBottom = this.canvas.width * CONFIG.ROAD_WIDTH_RATIO; // 道路宽度
                 
                 if (this.state === GameState.PLAYING) {
                     this.updatePlayerPosition();
@@ -725,11 +674,11 @@
                 const container = document.getElementById('characterSelect');
                 container.innerHTML = '';
                 
-                ASSETS.characters.forEach((char, index) => {
+                CHARACTERS.forEach((char, index) => {
                     const card = document.createElement('div');
                     card.className = 'character-card' + (index === this.selectedCharacter ? ' selected' : '');
                     card.innerHTML = `
-                        <img src="${char.src}" alt="${char.name}">
+                        <span class="emoji">${char.emoji}</span>
                         <div class="name">${char.name}</div>
                         <div class="stats">⚡${char.speed} 🪙${char.coinBonus}</div>
                     `;
@@ -742,15 +691,10 @@
             }
 
             async startGame() {
-                // 等待图片加载完成
-                if (this.initPromise) {
-                    await this.initPromise;
-                }
-                
                 this.hideAllScreens();
                 this.init();
                 
-                const char = ASSETS.characters[this.selectedCharacter];
+                const char = CHARACTERS[this.selectedCharacter];
                 this.speed = CONFIG.INITIAL_SPEED * char.speed;
                 this.coinMultiplier = char.coinBonus;
                 
@@ -908,29 +852,28 @@
 
             spawnObstacle() {
                 const lane = Math.floor(Math.random() * CONFIG.LANE_COUNT);
-                const typeIndex = Math.floor(Math.random() * ASSETS.obstacles.length);
-                const type = ASSETS.obstacles[typeIndex];
+                const types = ['rock', 'tree', 'pillar', 'box'];
+                const typeIndex = Math.floor(Math.random() * types.length);
+                const type = types[typeIndex];
                 
                 this.obstacles.push({
                     lane: lane,
-                    z: 2000,
+                    z: 3000,  // 从2000改为3000
                     type: type,
                     width: 80,
-                    height: type.jumpable ? 100 : 40,
+                    height: type === 'rock' || type === 'box' ? 40 : 100,
                 });
             }
 
             spawnCoins() {
                 const lane = Math.floor(Math.random() * CONFIG.LANE_COUNT);
                 const count = Math.floor(Math.random() * 3) + 1;
-                const coinIndex = Math.floor(Math.random() * ASSETS.coins.length);
                 
                 for (let i = 0; i < count; i++) {
                     this.collectibles.push({
                         lane: lane,
-                        z: 2000 + i * 50,
+                        z: 3000 + i * 50,  // 从2000改为3000
                         type: 'coin',
-                        src: ASSETS.coins[coinIndex],
                         width: 40,
                         height: 40,
                         rotation: Math.random() * Math.PI * 2,
@@ -939,11 +882,13 @@
                 
                 // 随机生成装饰物
                 if (Math.random() < 0.1) {
-                    const decoIndex = Math.floor(Math.random() * ASSETS.decorations.length);
+                    const decoEmoji = PIXEL_CONFIG.decorationColors[
+                        Math.floor(Math.random() * PIXEL_CONFIG.decorationColors.length)
+                    ];
                     this.decorations.push({
                         lane: Math.random() < 0.5 ? -0.5 : 2.5,
-                        z: 2000,
-                        src: ASSETS.decorations[decoIndex],
+                        z: 3000,  // 从2000改为3000
+                        emoji: decoEmoji,
                         width: 60,
                         height: 100,
                     });
@@ -987,8 +932,10 @@
                 for (const obs of this.obstacles) {
                     if (Math.abs(obs.lane - playerLane) < 0.5 && obs.z > -20 && obs.z < 50) {
                         // 检查是否可以躲避
-                        const canJump = obs.type.jumpable && this.player.isJumping && this.player.jumpY > 50;
-                        const canSlide = obs.type.slideable && this.player.isSliding;
+                        const canJump = obs.type !== 'rock' && obs.type !== 'box' && 
+                                       this.player.isJumping && this.player.jumpY > 50;
+                        const canSlide = (obs.type === 'rock' || obs.type === 'box') && 
+                                         this.player.isSliding;
                         
                         if (!canJump && !canSlide) {
                             this.gameOver();
@@ -1025,11 +972,11 @@
                 // 清空画布
                 ctx.clearRect(0, 0, w, h);
                 
-                // 绘制背景
-                this.renderBackground();
+                // 绘制像素风格背景
+                this.renderPixelBackground();
                 
-                // 绘制道路
-                this.renderRoad();
+                // 绘制像素风格道路
+                this.renderPixelRoad();
                 
                 // 绘制尘土粒子
                 this.renderDustParticles();
@@ -1050,69 +997,89 @@
                 this.renderPlayer();
             }
 
-            renderBackground() {
+            renderPixelBackground() {
                 const ctx = this.ctx;
                 const w = this.canvas.width;
                 const h = this.canvas.height;
                 
-                const bgSrc = ASSETS.backgrounds[this.bgIndex % ASSETS.backgrounds.length];
-                const bgImg = this.images[bgSrc];
+                // 像素风格渐变背景
+                const steps = 20;
+                const stepHeight = this.horizonY / steps;
                 
-                if (bgImg) {
-                    ctx.save();
-                    ctx.globalAlpha = 0.6;
-                    const scale = h / bgImg.height;
-                    const bgW = bgImg.width * scale;
-                    const offsetX = (w - bgW) / 2 + (this.bgOffset % bgW);
-                    ctx.drawImage(bgImg, offsetX, 0, bgW, h);
-                    ctx.restore();
+                for (let i = 0; i < steps; i++) {
+                    const ratio = i / steps;
+                    const r = Math.floor(15 + ratio * 32);
+                    const g = Math.floor(15 + ratio * 16);
+                    const b = Math.floor(35 + ratio * 58);
+                    ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                    ctx.fillRect(0, i * stepHeight, w, stepHeight + 1);
                 }
                 
-                // 渐变天空
-                const gradient = ctx.createLinearGradient(0, 0, 0, this.horizonY);
-                gradient.addColorStop(0, '#1a0a2e');
-                gradient.addColorStop(1, 'rgba(26, 10, 46, 0)');
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, w, this.horizonY);
+                // 添加像素星星效果
+                ctx.fillStyle = '#ffffff';
+                const starCount = 30;
+                for (let i = 0; i < starCount; i++) {
+                    const x = (i * 137 + this.bgOffset * 0.1) % w;
+                    const y = (i * 73) % this.horizonY;
+                    const size = (i % 3 === 0) ? 2 : 1;
+                    ctx.fillRect(Math.floor(x), Math.floor(y), size, size);
+                }
+                
+                // 像素风格山丘轮廓
+                ctx.fillStyle = '#1a0a2e';
+                const hillOffset = this.bgOffset % 200;
+                for (let x = 0; x < w; x += 20) {
+                    const hillHeight = Math.sin((x + hillOffset) * 0.02) * 30 + 
+                                       Math.sin((x + hillOffset) * 0.05) * 15;
+                    ctx.fillRect(x, this.horizonY - hillHeight - 20, 22, hillHeight + 25);
+                }
             }
 
-            renderRoad() {
+            renderPixelRoad() {
                 const ctx = this.ctx;
                 const w = this.canvas.width;
                 const h = this.canvas.height;
                 
-                const roadSrc = ASSETS.roads[this.roadIndex % ASSETS.roads.length];
-                const roadImg = this.images[roadSrc];
-                
-                // 绘制透视道路
-                ctx.save();
-                
-                // 道路多边形
-                const vanishX = w / 2;
+                // 透视参数
+                const vanishX = this.centerX;  // 屏幕正中央
                 const vanishY = this.horizonY;
-                const roadWidthBottom = w * 0.8;
-                const roadWidthTop = w * 0.1;
+                const roadWidthBottom = this.roadWidthBottom;  // 使用调整后的道路宽度
+                const roadWidthTop = w * 0.08;  // 透视顶部宽度
                 
-                // 道路中心线
-                const centerOffset = (this.roadOffset % 200) - 100;
+                // 绘制道路底色
+                ctx.fillStyle = PIXEL_CONFIG.roadColors.main;
+                ctx.beginPath();
+                ctx.moveTo(vanishX - roadWidthTop/2, vanishY);
+                ctx.lineTo(vanishX + roadWidthTop/2, vanishY);
+                ctx.lineTo(vanishX + roadWidthBottom/2, h);
+                ctx.lineTo(vanishX - roadWidthBottom/2, h);
+                ctx.closePath();
+                ctx.fill();
                 
-                // 绘制道路纹理
-                if (roadImg) {
-                    ctx.globalAlpha = 0.4;
-                    ctx.fillStyle = ctx.createPattern(roadImg, 'repeat');
+                // 绘制像素网格线
+                const gridSpacing = 40;
+                const offset = this.roadOffset % gridSpacing;
+                
+                ctx.strokeStyle = PIXEL_CONFIG.roadColors.gridLine;
+                ctx.lineWidth = 1;
+                
+                // 横线
+                for (let z = offset; z < 3000; z += gridSpacing) {
+                    const scale = this.getScale(z);
+                    if (scale < 0.05) continue;
+                    
+                    const y = vanishY + (h - vanishY) * (1 - scale);
+                    const roadWidthAtY = roadWidthBottom * scale;
+                    
                     ctx.beginPath();
-                    ctx.moveTo(vanishX - roadWidthTop/2, vanishY);
-                    ctx.lineTo(vanishX + roadWidthTop/2, vanishY);
-                    ctx.lineTo(vanishX + roadWidthBottom/2, h);
-                    ctx.lineTo(vanishX - roadWidthBottom/2, h);
-                    ctx.closePath();
-                    ctx.fill();
-                    ctx.globalAlpha = 1;
+                    ctx.moveTo(vanishX - roadWidthAtY/2, y);
+                    ctx.lineTo(vanishX + roadWidthAtY/2, y);
+                    ctx.stroke();
                 }
                 
-                // 道路边框
-                ctx.strokeStyle = 'rgba(139, 90, 43, 0.5)';
-                ctx.lineWidth = 3;
+                // 道路边缘（像素风格）
+                ctx.strokeStyle = PIXEL_CONFIG.roadColors.edge;
+                ctx.lineWidth = 4;
                 
                 // 左边线
                 ctx.beginPath();
@@ -1126,24 +1093,20 @@
                 ctx.lineTo(vanishX + roadWidthBottom/2, h);
                 ctx.stroke();
                 
-                // 绘制跑道分隔线
-                const laneOffsets = [-1, 0, 1];
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-                ctx.lineWidth = 2;
-                ctx.setLineDash([20, 30]);
+                // 绘制像素车道分隔线
+                const laneOffsets = [-1, 1];
+                ctx.strokeStyle = PIXEL_CONFIG.roadColors.line;
+                ctx.lineWidth = 3;
+                ctx.setLineDash([15, 25]);
                 
                 for (const offset of laneOffsets) {
-                    const topX = vanishX + (roadWidthTop / 2) * offset;
-                    const bottomX = vanishX + (roadWidthBottom / 2) * offset;
-                    
                     ctx.beginPath();
-                    ctx.moveTo(topX, vanishY);
-                    ctx.lineTo(bottomX, h);
+                    ctx.moveTo(vanishX, vanishY);
+                    ctx.lineTo(vanishX + (roadWidthBottom / 2) * offset, h);
                     ctx.stroke();
                 }
                 
                 ctx.setLineDash([]);
-                ctx.restore();
             }
 
             renderDecorations() {
@@ -1151,19 +1114,16 @@
                 const sorted = [...this.decorations].sort((a, b) => b.z - a.z);
                 
                 for (const deco of sorted) {
-                    if (deco.z < 0 || deco.z > 2000) continue;
+                    if (deco.z < 0 || deco.z > 3000) continue;  // 从2000改为3000
                     
                     const scale = this.getScale(deco.z);
                     const pos = this.getScreenPosition(deco.lane, deco.z);
                     
-                    const decoImg = this.images[deco.src];
-                    if (decoImg) {
-                        ctx.globalAlpha = 0.7;
-                        const drawW = deco.width * scale;
-                        const drawH = deco.height * scale;
-                        ctx.drawImage(decoImg, pos.x - drawW/2, pos.y - drawH, drawW, drawH);
-                        ctx.globalAlpha = 1;
-                    }
+                    const drawSize = 60 * scale;
+                    ctx.font = `${drawSize}px Arial`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillText(deco.emoji, pos.x, pos.y);
                 }
             }
 
@@ -1172,27 +1132,26 @@
                 const sorted = [...this.collectibles].sort((a, b) => b.z - a.z);
                 
                 for (const coin of sorted) {
-                    if (coin.z < 0 || coin.z > 2000) continue;
+                    if (coin.z < 0 || coin.z > 3000) continue;  // 从2000改为3000
                     
                     const scale = this.getScale(coin.z);
                     const pos = this.getScreenPosition(coin.lane, coin.z);
                     
-                    const coinImg = this.images[coin.src];
-                    if (coinImg) {
-                        const drawW = coin.width * scale;
-                        const drawH = coin.height * scale;
-                        
-                        ctx.save();
-                        ctx.translate(pos.x, pos.y - 30 * scale);
-                        ctx.rotate(coin.rotation);
-                        
-                        // 发光效果
-                        ctx.shadowColor = '#ffd700';
-                        ctx.shadowBlur = 10 * scale;
-                        
-                        ctx.drawImage(coinImg, -drawW/2, -drawH/2, drawW, drawH);
-                        ctx.restore();
-                    }
+                    const drawSize = 40 * scale;
+                    
+                    // 金币发光像素效果
+                    ctx.save();
+                    ctx.globalAlpha = 0.3;
+                    ctx.fillStyle = '#ffd700';
+                    const glowSize = drawSize * 1.5;
+                    ctx.fillRect(pos.x - glowSize/2, pos.y - 30*scale - glowSize/2, glowSize, glowSize);
+                    ctx.restore();
+                    
+                    // 绘制金币emoji
+                    ctx.font = `${drawSize}px Arial`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('🪙', pos.x, pos.y - 30 * scale);
                 }
             }
 
@@ -1201,18 +1160,33 @@
                 const sorted = [...this.obstacles].sort((a, b) => b.z - a.z);
                 
                 for (const obs of sorted) {
-                    if (obs.z < 0 || obs.z > 2000) continue;
+                    if (obs.z < 0 || obs.z > 3000) continue;  // 从2000改为3000
                     
                     const scale = this.getScale(obs.z);
                     const pos = this.getScreenPosition(obs.lane, obs.z);
                     
-                    const obsImg = this.images[obs.type.src];
-                    if (obsImg) {
-                        const drawW = obs.width * scale;
-                        const drawH = obs.height * scale;
-                        
-                        ctx.drawImage(obsImg, pos.x - drawW/2, pos.y - drawH, drawW, drawH);
+                    // 根据类型选择emoji
+                    let emoji;
+                    switch(obs.type) {
+                        case 'rock': emoji = '🪨'; break;
+                        case 'tree': emoji = '🌳'; break;
+                        case 'pillar': emoji = '🏛️'; break;
+                        case 'box': emoji = '📦'; break;
+                        default: emoji = '🗿';
                     }
+                    
+                    const drawSize = Math.max(obs.height * scale, 30);
+                    ctx.font = `${drawSize}px Arial`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillText(emoji, pos.x, pos.y);
+                    
+                    // 像素阴影
+                    ctx.save();
+                    ctx.globalAlpha = 0.3;
+                    ctx.fillStyle = '#000';
+                    ctx.fillRect(pos.x - 15 * scale, pos.y + 3, 30 * scale, 6 * scale);
+                    ctx.restore();
                 }
             }
 
@@ -1229,28 +1203,28 @@
                 y += bobOffset;
                 
                 // 根据状态设置emoji和效果
-                let emoji = '🏃';
+                let emoji = PIXEL_CONFIG.playerEmoji;
                 let fontSize = 50;
                 let rotation = 0;
                 let scaleX = 1;
                 let scaleY = 1;
                 let shadowOffsetY = 0;
                 
-                if (this.gameState === 'dead') {
+                if (this.state === GameState.GAME_OVER) {
                     // 死亡状态
-                    emoji = '💀';
+                    emoji = PIXEL_CONFIG.deadEmoji;
                     rotation = Math.sin(this.player.animFrame * 0.5) * 0.3;
                     fontSize = 50;
                 } else if (this.player.isSliding) {
                     // 滑铲状态 - 压扁效果
-                    emoji = '🏃';
+                    emoji = PIXEL_CONFIG.playerEmoji;
                     scaleX = 1.5;
                     scaleY = 0.5;
                     fontSize = 40;
                     shadowOffsetY = 30;
                 } else if (this.player.jumpY > 0) {
                     // 跳跃状态 - 向上偏移 + 拉伸
-                    emoji = '🏃';
+                    emoji = PIXEL_CONFIG.playerEmoji;
                     scaleX = 0.9;
                     scaleY = 1.2;
                     fontSize = 55;
@@ -1269,32 +1243,32 @@
                 
                 ctx.restore();
                 
-                // 阴影
+                // 像素风格阴影
                 ctx.save();
-                ctx.globalAlpha = 0.3;
+                ctx.globalAlpha = 0.4;
                 ctx.fillStyle = '#000';
-                ctx.beginPath();
-                ctx.ellipse(pos.x, pos.y + 5 - shadowOffsetY, 30 * scaleX, 10 * scaleY, 0, 0, Math.PI * 2);
-                ctx.fill();
+                const shadowWidth = 30 * scaleX;
+                const shadowHeight = 8 * scaleY;
+                ctx.fillRect(pos.x - shadowWidth/2, pos.y + 5 - shadowOffsetY, shadowWidth, shadowHeight);
                 ctx.restore();
             }
 
             getScale(z) {
-                const maxZ = 2000;
+                const maxZ = 3000;  // 从2000改为3000
                 const minZ = -50;
                 const normalizedZ = (z - minZ) / (maxZ - minZ);
                 return Math.max(0.1, 1 - normalizedZ * (1 - CONFIG.PERSPECTIVE_SCALE));
             }
 
             getScreenPosition(lane, z) {
-                const vanishX = this.canvas.width / 2;
+                const vanishX = this.centerX;  // 屏幕正中央
                 const vanishY = this.horizonY;
                 const bottomY = this.canvas.height;
                 
                 const scale = this.getScale(z);
-                const roadWidthBottom = this.canvas.width * 0.8;
-                const roadWidthAtZ = roadWidthBottom * scale;
+                const roadWidthAtZ = this.roadWidthBottom * scale;  // 使用居中的道路宽度
                 
+                // 车道偏移计算，确保跑道在屏幕正中央
                 const laneOffset = (lane - 1) * (roadWidthAtZ / CONFIG.LANE_COUNT);
                 const x = vanishX + laneOffset;
                 const y = vanishY + (bottomY - vanishY) * (1 - (1 - scale));
@@ -1302,7 +1276,7 @@
                 return { x, y };
             }
             
-            // ========== 粒子系统 ==========
+            // ========== 粒子系统（像素风格） ==========
             spawnCollectParticles(x, y) {
                 for (let i = 0; i < 8; i++) {
                     const angle = (Math.PI * 2 * i) / 8;
@@ -1315,7 +1289,7 @@
                         life: 1,
                         decay: 0.02 + Math.random() * 0.02,
                         size: 4 + Math.random() * 4,
-                        color: Math.random() > 0.5 ? '#ffd700' : '#ffaa00'
+                        color: Math.random() > 0.5 ? '#ffd700' : '#fbbf24'
                     });
                 }
             }
@@ -1364,9 +1338,9 @@
                     ctx.save();
                     ctx.globalAlpha = p.life;
                     ctx.fillStyle = p.color;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
-                    ctx.fill();
+                    // 像素风格粒子（方形）
+                    const size = p.size * p.life;
+                    ctx.fillRect(p.x - size/2, p.y - size/2, size, size);
                     ctx.restore();
                 }
             }
@@ -1377,9 +1351,8 @@
                     ctx.save();
                     ctx.globalAlpha = p.life * 0.5;
                     ctx.fillStyle = '#a08060';
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    ctx.fill();
+                    // 像素风格尘土
+                    ctx.fillRect(p.x - p.size/2, p.y - p.size/2, p.size, p.size);
                     ctx.restore();
                 }
             }
