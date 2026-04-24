@@ -913,7 +913,7 @@
                 
                 this.obstacles.push({
                     lane: lane,
-                    z: 1000,
+                    z: 2000,
                     type: type,
                     width: 80,
                     height: type.jumpable ? 100 : 40,
@@ -928,7 +928,7 @@
                 for (let i = 0; i < count; i++) {
                     this.collectibles.push({
                         lane: lane,
-                        z: 1000 + i * 50,
+                        z: 2000 + i * 50,
                         type: 'coin',
                         src: ASSETS.coins[coinIndex],
                         width: 40,
@@ -942,7 +942,7 @@
                     const decoIndex = Math.floor(Math.random() * ASSETS.decorations.length);
                     this.decorations.push({
                         lane: Math.random() < 0.5 ? -0.5 : 2.5,
-                        z: 1000,
+                        z: 2000,
                         src: ASSETS.decorations[decoIndex],
                         width: 60,
                         height: 100,
@@ -1151,7 +1151,7 @@
                 const sorted = [...this.decorations].sort((a, b) => b.z - a.z);
                 
                 for (const deco of sorted) {
-                    if (deco.z < 0 || deco.z > 1000) continue;
+                    if (deco.z < 0 || deco.z > 2000) continue;
                     
                     const scale = this.getScale(deco.z);
                     const pos = this.getScreenPosition(deco.lane, deco.z);
@@ -1172,7 +1172,7 @@
                 const sorted = [...this.collectibles].sort((a, b) => b.z - a.z);
                 
                 for (const coin of sorted) {
-                    if (coin.z < 0 || coin.z > 1000) continue;
+                    if (coin.z < 0 || coin.z > 2000) continue;
                     
                     const scale = this.getScale(coin.z);
                     const pos = this.getScreenPosition(coin.lane, coin.z);
@@ -1201,7 +1201,7 @@
                 const sorted = [...this.obstacles].sort((a, b) => b.z - a.z);
                 
                 for (const obs of sorted) {
-                    if (obs.z < 0 || obs.z > 1000) continue;
+                    if (obs.z < 0 || obs.z > 2000) continue;
                     
                     const scale = this.getScale(obs.z);
                     const pos = this.getScreenPosition(obs.lane, obs.z);
@@ -1218,47 +1218,69 @@
 
             renderPlayer() {
                 const ctx = this.ctx;
-                const charSrc = ASSETS.characters[this.selectedCharacter].src;
-                const charImg = this.images[charSrc];
-                
-                if (!charImg) return;
-                
                 const pos = this.getScreenPosition(this.player.lane, 0);
                 let y = pos.y - 50;
                 
                 // 跳跃偏移
                 y -= this.player.jumpY;
                 
-                // 滑铲效果
-                const scaleY = this.player.isSliding ? 0.5 : 1;
-                const scaleX = this.player.isSliding ? 1.3 : 1;
+                // 跑步动画 - 上下晃动
+                const bobOffset = Math.sin(this.player.animFrame) * 5;
+                y += bobOffset;
+                
+                // 根据状态设置emoji和效果
+                let emoji = '🏃';
+                let fontSize = 50;
+                let rotation = 0;
+                let scaleX = 1;
+                let scaleY = 1;
+                let shadowOffsetY = 0;
+                
+                if (this.gameState === 'dead') {
+                    // 死亡状态
+                    emoji = '💀';
+                    rotation = Math.sin(this.player.animFrame * 0.5) * 0.3;
+                    fontSize = 50;
+                } else if (this.player.isSliding) {
+                    // 滑铲状态 - 压扁效果
+                    emoji = '🏃';
+                    scaleX = 1.5;
+                    scaleY = 0.5;
+                    fontSize = 40;
+                    shadowOffsetY = 30;
+                } else if (this.player.jumpY > 0) {
+                    // 跳跃状态 - 向上偏移 + 拉伸
+                    emoji = '🏃';
+                    scaleX = 0.9;
+                    scaleY = 1.2;
+                    fontSize = 55;
+                }
                 
                 ctx.save();
                 ctx.translate(pos.x, y);
+                ctx.rotate(rotation);
                 ctx.scale(scaleX, scaleY);
                 
-                // 跑步动画
-                const bobOffset = Math.sin(this.player.animFrame) * 3;
-                ctx.translate(0, bobOffset);
+                // 绘制emoji
+                ctx.font = `${fontSize}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(emoji, 0, 0);
                 
-                const drawW = this.player.width;
-                const drawH = this.player.height;
-                
-                ctx.drawImage(charImg, -drawW/2, -drawH, drawW, drawH);
+                ctx.restore();
                 
                 // 阴影
-                ctx.restore();
                 ctx.save();
                 ctx.globalAlpha = 0.3;
                 ctx.fillStyle = '#000';
                 ctx.beginPath();
-                ctx.ellipse(pos.x, pos.y + 5, 30, 10, 0, 0, Math.PI * 2);
+                ctx.ellipse(pos.x, pos.y + 5 - shadowOffsetY, 30 * scaleX, 10 * scaleY, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.restore();
             }
 
             getScale(z) {
-                const maxZ = 1000;
+                const maxZ = 2000;
                 const minZ = -50;
                 const normalizedZ = (z - minZ) / (maxZ - minZ);
                 return Math.max(0.1, 1 - normalizedZ * (1 - CONFIG.PERSPECTIVE_SCALE));
