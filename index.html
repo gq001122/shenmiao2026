@@ -962,6 +962,36 @@
                 document.getElementById('coinCount').textContent = this.coins;
                 document.getElementById('distance').textContent = Math.floor(this.distance);
                 document.getElementById('speed').textContent = (this.speed / CONFIG.INITIAL_SPEED).toFixed(1);
+                // 显示玩家位置百分比
+                const playerYPercent = Math.floor((1 - CONFIG.PLAYER_Y_RATIO) * 100);
+                document.getElementById('distance').title = `玩家位置: 下方${playerYPercent}%`;
+                // 在游戏画面左下角显示玩家位置指示
+                this.showPlayerPositionIndicator();
+            }
+            
+            showPlayerPositionIndicator() {
+                const ctx = this.ctx;
+                const w = this.canvas.width;
+                const h = this.canvas.height;
+                const playerYPercent = Math.floor((1 - CONFIG.PLAYER_Y_RATIO) * 100);
+                
+                // 左下角位置指示器
+                ctx.save();
+                ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                ctx.fillRect(10, h - 60, 120, 50);
+                ctx.strokeStyle = '#ffd700';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(10, h - 60, 120, 50);
+                
+                ctx.font = '14px Courier New';
+                ctx.fillStyle = '#ffd700';
+                ctx.textAlign = 'left';
+                ctx.fillText(`👤 玩家: 下方${playerYPercent}%`, 18, h - 35);
+                
+                ctx.font = '10px Courier New';
+                ctx.fillStyle = '#aaa';
+                ctx.fillText(`Y=${CONFIG.PLAYER_Y_RATIO}`, 18, h - 18);
+                ctx.restore();
             }
 
             render() {
